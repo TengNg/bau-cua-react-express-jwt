@@ -37,7 +37,6 @@ export default function Gameplay() {
     }, [])
 
     const gameData = userData?.user?.gameData;
-
     const handleLogout = async (e) => {
         e.preventDefault();
         try {
@@ -50,14 +49,27 @@ export default function Gameplay() {
         }
     }
 
+    const handleAddMoreMoney = (val) => {
+        setUserData(prevData => {
+            const newData = { ...prevData };
+
+            if (newData.user.gameData.totalMoney + val <= 100_000) {
+                newData.user.gameData.totalMoney += val;
+            }
+
+            return newData;
+        });
+    }
+
     return (
         <div className='game-data'>
-            <div>
+            <section className='my-2 border-black border-[3px] p-4 w-fit'>
                 <h3 className='font-bold underline'>Change bet size: </h3>
                 {BET_SIZE_OPTIONS.map(num => {
                     return (
                         <label key={num} htmlFor={`bet-size-${num}`}>
-                            <input key={num}
+                            <input
+                                key={num}
                                 type="radio"
                                 value={num}
                                 name='gender'
@@ -71,25 +83,25 @@ export default function Gameplay() {
                         </label>
                     )
                 })}
+            </section>
+            <section className='border-black border-[3px] p-4 w-fit'>
                 <h3 className='font-bold underline'>Add more money: </h3>
-                {ADD_MORE_MONEY_OPTIONS.map(num => {
+                {ADD_MORE_MONEY_OPTIONS.map((item, index) => {
                     return (
-                        <label key={num} htmlFor={`bet-size-${num}`}>
-                            <input key={num}
-                                type="radio"
-                                value={num}
-                                name='gender'
-                                onChange={(e) => setUserData(prevData => {
-                                    const newData = { ...prevData }
-                                    newData.user.gameData.totalMoney += +e.target.value;
-                                    return newData;
-                                })}
-                            />
-                            ${num}
-                        </label>
+                        <div key={index} className='mt-4 p-2 border-[3px] border-black flex flex-row items-center w-[12rem]'>
+                            <p key={index + 10} className='flex-1'>${item}</p>
+                            <button
+                                key={index + 20}
+                                onClick={() => {
+                                    handleAddMoreMoney(item);
+                                }}
+                                className='text-[0.75rem] font-bold border-[3px] border-black w-fit'>
+                                +
+                            </button>
+                        </div>
                     )
                 })}
-            </div>
+            </section>
 
             <br />
 

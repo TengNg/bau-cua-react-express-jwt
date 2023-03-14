@@ -2,8 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
+
 const credentials = require('./middlewares/credentials.js');
 const errorHandler = require('./middlewares/errorHandler.js');
+const corsOptions = require('./config/corsOptions.js');
+
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -14,7 +17,8 @@ mongoose.connect('mongodb://localhost/myapp');
 // Handle options credentials check - before CORS!
 // and fetch cookies credentials requirement
 app.use(credentials);
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(cookieParser());
 
