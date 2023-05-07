@@ -8,7 +8,7 @@ import Missing from './pages/Missing'
 function App() {
     return (
         <>
-            <div className='w-[100%] h-[100vh] box-border border-4 border-black p-5'>
+            <div className='w-[100%] h-[100vh]'>
                 <Routes>
                     {["/", "/home", "/index"].map((path, index) => {
                         return (

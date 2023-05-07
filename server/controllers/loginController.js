@@ -14,11 +14,29 @@ const handleLogin = async (req, res) => {
     const validPwd = await bcrypt.compare(password, foundUser.password);
     if (!validPwd) return res.status(400).json({ msg: "Password is incorrect" });
 
-    const accessToken = jwt.sign({ "username": foundUser.username }, process.env.ACCESS_TOKEN, { expiresIn: '30s' });
-    const refreshToken = jwt.sign({ "username": foundUser.username }, process.env.REFRESH_TOKEN, { expiresIn: '1d' });
+    const accessToken = jwt.sign(
+        { "username": foundUser.username },
+        process.env.ACCESS_TOKEN,
+        { expiresIn: '30s' }
+    );
+    const refreshToken = jwt.sign(
+        { "username": foundUser.username },
+        process.env.REFRESH_TOKEN,
+        { expiresIn: '1d' }
+    );
+
     const currentUser = await User.findOneAndUpdate({ username }, { gameData, refreshToken }, { new: true });
 
-    res.cookie('token', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie(
+        'token',
+        refreshToken,
+        {
+            httpOnly: true,
+            sameSite: 'None',
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000
+        }
+    );
 
     return res.status(200).json({
         accessToken,

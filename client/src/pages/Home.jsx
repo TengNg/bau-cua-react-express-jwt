@@ -12,16 +12,18 @@ export default function Home() {
             console.log('no token');
             return;
         }
-        const newAccessToken = refresh();
+        const newAccessToken = await refresh();
         console.log(newAccessToken);
     };
     return (
         <>
             <Title />
             <NavBar />
-            <h1>Home</h1>
-            <br />
-            <button onClick={getRefreshToken}>Refresh (testing)</button>
+            <div className='box-border border-4 border-black p-5'>
+                <h1>Home</h1>
+                <br />
+                <button onClick={getRefreshToken} className=''>Refresh</button>
+            </div>
         </>
     )
 }

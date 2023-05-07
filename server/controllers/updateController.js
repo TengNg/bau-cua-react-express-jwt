@@ -18,12 +18,9 @@ const updateUserAccount = async (req, res, next) => {
         next();
     }
 
-    console.log('current-gamedata: ' + gameData);
+    await User.findOneAndUpdate({ refreshToken: foundUser.refreshToken }, { gameData: gameData });
 
-    const currentUser = await User.findOneAndUpdate({ refreshToken: foundUser.refreshToken }, { gameData: gameData }, { new: true });
-    console.log(currentUser);
-
-    res.clearCookie('token', { httpOnly: true, sameSite: 'None', secure: true });
+    // res.clearCookie('token', { httpOnly: true, sameSite: 'None', secure: true });
     res.status(204).json({
         msg: "user info saved",
     });

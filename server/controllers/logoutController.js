@@ -10,7 +10,12 @@ const handleLogout = async (req, res) => {
         return res.sendStatus(204);
     }
 
-    const currentUser = await User.findOneAndUpdate({ refreshToken: foundUser.refreshToken }, { refreshToken: null }, { new: true });
+    const currentUser = await User.findOneAndUpdate(
+        { refreshToken: foundUser.refreshToken },
+        { refreshToken: null },
+        { new: true }
+    );
+
     res.clearCookie('token', { httpOnly: true, sameSite: 'None', secure: true });
     res.status(204).json({
         msg: "logout success",

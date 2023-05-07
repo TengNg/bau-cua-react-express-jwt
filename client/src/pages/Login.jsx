@@ -38,8 +38,8 @@ export default function Login() {
 
     return (
         <>
-            <section>
-                <h1>Sign In</h1>
+            <section className='w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2'>
+                <h1 className='text-center m-5'>Sign In</h1>
                 <form onSubmit={handleSubmit} className='login-form'>
                     <label htmlFor="username">Username:</label>
                     <input
@@ -67,18 +67,20 @@ export default function Login() {
                     <button className='mt-4 mx-auto border-black border-[3px] w-fit'>Sign In</button>
                 </form>
 
-                <p>
-                    Need an Account?<br />
-                    <span>
-                        <Link to="/register">Sign Up</Link>
-                    </span>
-                </p>
+                <div className='items-start w-[300px] p-4'>
+                    <p>
+                        Need an Account?<br />
+                        <span>
+                            <Link to="/register">Sign Up</Link>
+                        </span>
+                    </p>
 
-                <p>
-                    <span>
-                        <Link to="/">Go back to Home</Link>
-                    </span>
-                </p>
+                    <p>
+                        <span>
+                            <Link to="/">Go back to Home</Link>
+                        </span>
+                    </p>
+                </div>
             </section>
         </>
     )
