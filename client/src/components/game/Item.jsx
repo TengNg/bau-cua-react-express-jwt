@@ -10,8 +10,8 @@ export default function Item({ id, name, betLevel, selected, handleSelect, handl
         <>
             <div
                 onClick={(e) => select(e)}
-                className='w-[100px] h-[100px] border-black border-[3px] grid place-items-center select-none'
-                style={{ background: selected ? 'lightgreen' : 'white' }}
+                className='w-[100px] h-[100px] border-black border-[3px] grid place-items-center select-none cursor-pointer font-bold'
+                style={{ background: selected ? '#bdbdbd' : 'whitesmoke' }}
             >
                 {name}
                 {canSelect && (

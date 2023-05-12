@@ -34,6 +34,7 @@ export default function Gameplay() {
 
         return () => {
             isMounted = false;
+            setIsDataLoaded(false);
             controller.abort();
         }
     }, [])
@@ -41,6 +42,7 @@ export default function Gameplay() {
     useEffect(() => {
         window.addEventListener("beforeunload", (ev) => {
             ev.preventDefault();
+            alert("Game saved");
             return ev.returnValue = "Press CTRL+S or SAVE button to save the current data";
         });
 

@@ -17,9 +17,11 @@ export default function Login() {
     const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        if (auth.accessToken)
+        if (auth.accessToken) {
             navigate('/gameplay')
-        usernameInputEl.current.focus();
+        } else {
+            usernameInputEl.current.focus();
+        }
     }, [])
 
     const handleSubmit = async (e) => {

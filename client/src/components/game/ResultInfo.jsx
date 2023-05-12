@@ -5,7 +5,7 @@ export default function ResultInfo({ resultItems }) {
     return (
         <>
             <div
-                className='w-[350px] h-[150px] border-black border-[3px] flex justify-center items-center gap-2'
+                className='w-[350px] h-[150px] border-black border-[4px] flex justify-center items-center gap-2 shadow-[5px_7px_0_0_black]'
             >
                 {resultItems.map((item, index) => {
                     return (

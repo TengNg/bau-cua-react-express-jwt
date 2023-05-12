@@ -26,11 +26,14 @@ const UserSchema = new Schema({
             required: true,
             default: 5000,
         },
+        // history: {
+        //
+        // }
     },
     refreshToken: {
         type: String,
         default: null,
-    }
+    },
 });
 
 module.exports = mongoose.model('User', UserSchema);

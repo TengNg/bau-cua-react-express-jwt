@@ -60,9 +60,12 @@ export default function Board() {
     };
 
     const stopTimer = () => {
-        clearInterval(intervalId)
+        clearInterval(intervalId);
+        setItems(itemsData);
         setCounter(WAITING_TIME);
-        showAlert(false, "");
+        showAlert(false, '');
+        setResultItems([])
+        setFlag(true);
     };
 
     useEffect(() => {
@@ -70,7 +73,11 @@ export default function Board() {
         if (resultItems.length > 0) {
             setUserData(prevData => {
                 const newData = { ...prevData };
-                newData.user.gameData.totalMoney += calculateWinningMoney(resultItems, selectedItems, prevData.user.gameData.betSize);
+                newData.user.gameData.totalMoney += calculateWinningMoney(
+                    resultItems,
+                    selectedItems,
+                    prevData.user.gameData.betSize
+                );
                 return newData;
             });
             timer = setTimeout(() => {
@@ -118,13 +125,13 @@ export default function Board() {
     };
 
     const handleReset = () => {
-        console.log('handle reset');
+        stopTimer();
     };
 
     return (
         <>
             <section
-                className='flex flex-wrap justify-center items-center w-[350px] h-[250px] gap-2 border-black border-[3px]'
+                className='flex flex-wrap justify-center items-center w-[350px] h-[250px] gap-2 border-black border-[4px] shadow-[6px_8px_0_0_black]'
                 onClick={handleSelect}
             >
                 {items.map((item, index) => {
@@ -139,18 +146,29 @@ export default function Board() {
                 })}
             </section>
 
-            <div className='flex flex-row justify-center items-center w-[250px] h-[5rem] gap-2'>
-                <button className='border-black border-[3px] w-[100px] h-[50px]' onClick={handleRoll}>Roll</button>
-                <button className='border-black border-[3px] w-[100px] h-[50px]' onClick={handleReset}>Reset</button>
+            <div className='flex flex-row justify-center items-center w-[250px] h-[5rem] gap-7'>
+                <button
+                    className='border-black border-[4px] w-[100px] h-[50px] shadow-[4px_4px_0_0_black] select-none hover:shadow-gray-500 hover:text-gray-500 hover:border-gray-500 transition-all font-bold'
+                    onClick={handleRoll}
+                >
+                    Roll
+                </button>
+
+                <button
+                    className='border-black border-[4px] w-[100px] h-[50px] shadow-[4px_4px_0_0_black] select-none hover:shadow-gray-500 hover:text-gray-500 hover:border-gray-500 transition-all font-bold'
+                    onClick={handleReset}
+                >
+                    Reset
+                </button>
             </div>
 
             <ResultInfo
                 resultItems={resultItems}
             />
 
-            {flag === false && <p className='text-gray-300'>Waiting: {counter}s. Please check your result</p>}
+            {flag === false && <p className='text-gray-700'>Waiting: {counter}s. Please check your result</p>}
 
-            {alert.show && <Alert {...alert} />}
+            {alert.show && <Alert showAlert={showAlert}{...alert} />}
         </>
     )
 }
