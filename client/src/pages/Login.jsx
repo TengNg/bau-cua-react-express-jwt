@@ -27,7 +27,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosPrivate.post('/login', JSON.stringify({ username, password }));
+            const response = await axiosPrivate.post('/login', JSON.stringify({ username: username.trim(), password }));
             const accessToken = response?.data?.accessToken;
             setAuth({ username, password, accessToken });
             setUsername('');

@@ -4,14 +4,24 @@ import useGameplayData from '../../hooks/useGameplayData';
 const ADD_MORE_MONEY_OPTIONS = [5_000, 10_000, 20_000];
 const BET_SIZE_OPTIONS = [5_000, 10_000, 20_000];
 
-export default function Menu() {
+export default function SettingsMenu({ settingsOpen, setSettingsOpen }) {
     const { userData, setUserData } = useGameplayData();
+
+    const wrapperRef = useRef();
+
+    useEffect(() => {
+        if (settingsOpen === true) {
+            wrapperRef.current.classList.remove('hidden');
+            wrapperRef.current.classList.toggle('block');
+        } else {
+            wrapperRef.current.classList.remove('block');
+            wrapperRef.current.classList.toggle('hidden');
+        }
+    }, [settingsOpen]);
 
     const [betSize, setBetSize] = useState(() => {
         return userData.user.gameData.betSize;
     });
-
-    const wrapperRef = useRef();
 
     useEffect(() => {
         setUserData(prevData => {
@@ -35,13 +45,16 @@ export default function Menu() {
         setBetSize(+e.target.value);
     };
 
+    const handleCloseSettings = () => {
+        setSettingsOpen(false);
+    }
 
     return (
         <>
-            <div ref={wrapperRef} className='w-[100%] h-[100%] bg-white bg-opacity-75 absolute grid place-items-center' >
+            <div ref={wrapperRef} className='w-[100%] h-[100%] bg-white bg-opacity-75 absolute grid place-items-center'>
                 <button
                     className='absolute top-[5rem] right-[7rem] font-bold text-4xl border-black border-[5px] p-2 w-[5rem] h-[5rem] rounded-full'
-                    onClick={() => wrapperRef.current.classList.toggle('hidden')}
+                    onClick={handleCloseSettings}
                 > X
                 </button>
                 <div className='w-[60%] h-[60%] flex flex-col justify-center items-center border-black border-[4px] p-3 absolute gap-1 bg-white'>

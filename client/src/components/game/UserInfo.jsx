@@ -2,9 +2,12 @@ import React from 'react'
 import { axiosPrivate } from '../../api/axios';
 import useGameplayData from '../../hooks/useGameplayData';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 export default function UserInfo() {
     const { userData, setUserData } = useGameplayData();
+    const { setAuth } = useAuth();
+
     const navigate = useNavigate();
 
     const save = () => {
@@ -22,6 +25,7 @@ export default function UserInfo() {
             setUserData({});
             navigate('/login', { replace: true });
         } catch (err) {
+            setAuth({});
             setUserData({});
             navigate('/', { replace: true });
         }
@@ -29,7 +33,7 @@ export default function UserInfo() {
 
     return (
         <>
-            <div className='flex flex-col justify-center items-center border-black border-[4px] p-3 w-fit absolute top-[2rem] right-[2rem] gap-3 shadow-[6px_8px_0_0_black]'>
+            <div className='flex flex-col justify-center items-center border-black border-[4px] p-3 w-fit absolute top-[2rem] right-[2rem] gap-3 shadow-[6px_8px_0_0_black] bg-gray-200'>
                 <div className='select-none'>
                     <h3><span className='font-bold'>Username: </span>{userData?.user?.username}</h3>
                     <h3><span className='font-bold'>Total Money: </span>${userData?.user?.gameData.totalMoney}</h3>

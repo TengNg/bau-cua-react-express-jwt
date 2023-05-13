@@ -131,7 +131,7 @@ export default function Board() {
     return (
         <>
             <section
-                className='flex flex-wrap justify-center items-center w-[350px] h-[250px] gap-2 border-black border-[4px] shadow-[6px_8px_0_0_black]'
+                className='grid grid-cols-3 grid-rows-2 gap-3 p-4 items-center justify-items-center border-black border-[4px] shadow-[6px_8px_0_0_black] bg-gray-300'
                 onClick={handleSelect}
             >
                 {items.map((item, index) => {
@@ -147,19 +147,21 @@ export default function Board() {
             </section>
 
             <div className='flex flex-row justify-center items-center w-[250px] h-[5rem] gap-7'>
-                <button
-                    className='border-black border-[4px] w-[100px] h-[50px] shadow-[4px_4px_0_0_black] select-none hover:shadow-gray-500 hover:text-gray-500 hover:border-gray-500 transition-all font-bold'
-                    onClick={handleRoll}
-                >
-                    Roll
-                </button>
+                <div className='w-[100px] h-[50px]'>
+                    <button
+                        className='border-black border-[4px] w-[100%] h-[100%] shadow-[4px_5px_0_0_black] select-none hover:shadow-none hover:m-[2px_0_0_4px] hover:shadow-gray-600 hover:text-gray-600 hover:border-gray-600 transition-all font-bold'
+                        onClick={handleRoll}
+                    >Roll</button>
+                </div>
 
-                <button
-                    className='border-black border-[4px] w-[100px] h-[50px] shadow-[4px_4px_0_0_black] select-none hover:shadow-gray-500 hover:text-gray-500 hover:border-gray-500 transition-all font-bold'
-                    onClick={handleReset}
-                >
-                    Reset
-                </button>
+                <div className='w-[100px] h-[50px]'>
+                    <button
+                        className='border-black border-[4px] w-[100%] h-[100%] shadow-[4px_5px_0_0_black] select-none hover:shadow-none hover:m-[2px_0_0_4px] hover:shadow-gray-600 hover:text-gray-600 hover:border-gray-600 transition-all font-bold'
+                        onClick={handleReset}
+                    >
+                        Reset
+                    </button>
+                </div>
             </div>
 
             <ResultInfo
