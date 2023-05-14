@@ -3,6 +3,12 @@ const User = require('../models/User.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const isLoggedIn = () => {
+    const cookies = req.cookies;
+    if (!cookies?.token) return res.status(401).json({ msg: "error" });
+    return res.json({ msg: "user is logged in" });
+};
+
 const handleLogin = async (req, res) => {
     const { username, password, gameData } = req.body;
 
@@ -39,9 +45,10 @@ const handleLogin = async (req, res) => {
     );
 
     return res.status(200).json({
+        currentUser,
         accessToken,
-        currentUser
+        refreshToken,
     });
 };
 
-module.exports = { handleLogin };
+module.exports = { isLoggedIn, handleLogin };
