@@ -5,9 +5,12 @@ import GameplayInfo from '../components/game/GameplayInfo';
 import useGameplayData from '../hooks/useGameplayData';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 export default function Gameplay() {
     const { userData, setUserData } = useGameplayData();
+    const { auth, setAuth } = useAuth();
+
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     const axiosWithInterceptors = useAxiosPrivate();
@@ -24,6 +27,7 @@ export default function Gameplay() {
                 const response = await axiosWithInterceptors.get('/gameplay', { signal: controller.signal });
                 if (isMounted) {
                     setUserData(response.data);
+                    setAuth(response.data);
                     setIsDataLoaded(true);
                 }
             } catch (err) {

@@ -1,12 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
+import Title from '../components/Title';
+import useAuth from '../hooks/useAuth';
 
 // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const PWD_REGEX = /^.{8,24}$/;
 
 export default function Register() {
+    const { auth } = useAuth();
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -19,10 +23,19 @@ export default function Register() {
     const [success, setSuccess] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        usernameInputEl.current.focus();
-    }, []);
+        try {
+            axiosPrivate.get('/register');
+            if (auth?.accessToken) {
+                navigate('/gameplay');
+            }
+        } catch (err) {
+            usernameInputEl.current.focus();
+        }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,8 +56,7 @@ export default function Register() {
         }
 
         try {
-            const response = await axiosPrivate.post('/register', JSON.stringify({ username, password }));
-            console.log(response.data);
+            await axiosPrivate.post('/register', JSON.stringify({ username, password }));
             setSuccess(true);
             setUsername('');
             setPassword('');
@@ -62,10 +74,16 @@ export default function Register() {
 
     return (
         <>
-            {success === false && <p style={{ color: 'maroon' }}>{errMsg}</p>}
-            <section>
-                <h1>Register</h1>
-                <form onSubmit={handleSubmit} className='login-form'>
+            {success === false && <p className='text-red-300'>{errMsg}</p>}
+            <section className='relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'>
+                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
+                    <button
+                        className='button--style'
+                        onClick={() => navigate(from, { replace: true })}
+                    >Back</button>
+                </div>
+                <Title titleName={"Register"} />
+                <form onSubmit={handleSubmit} className='flex flex-col section--style p-3'>
                     <label htmlFor="username">Username:</label>
                     <input
                         className='border-[3px] border-black'
@@ -102,16 +120,21 @@ export default function Register() {
                         required
                     />
 
-                    <button className='border-[3px] border-black font-bold mt-8'>Sign Up</button>
+                    <div className='w-[70%] h-[3rem] m-[1rem_auto]'>
+                        <button className='button--style'>Sign Up</button>
+                    </div>
 
                 </form>
 
-                <p>
-                    Already have an Account?<br />
-                    <span>
-                        <Link to="/login">Login</Link>
-                    </span>
-                </p>
+
+                <div className='items-start w-[300px] p-4 font-bold'>
+                    Already have an Account?
+                    <div className='w-[150px] h-[3rem]'>
+                        <Link className='text-black hover:text-black' to="/login">
+                            <button className='button--style'>Login</button>
+                        </Link>
+                    </div>
+                </div>
             </section>
         </>
     )

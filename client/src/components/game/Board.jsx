@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Item from './Item';
 import ResultInfo from './ResultInfo';
 import Alert from './Alert';
 import useGameplayData from '../../hooks/useGameplayData';
 
 import itemsData from '../../data/items.json';
+import ItemBetLevelSelection from './ItemBetLevelSelection';
 
 const WAITING_TIME = 8;
 
@@ -50,6 +51,8 @@ export default function Board() {
     const [counter, setCounter] = useState(WAITING_TIME);
     const [intervalId, setIntervalId] = useState();
 
+    const itemBetlLevelSelectionRef = useRef();
+
     const selectedItems = items.filter(item => item.selected === true);
 
     const startTimer = () => {
@@ -94,9 +97,14 @@ export default function Board() {
         setAlert({ show, msg });
     };
 
-    const handleSelect = (id) => {
+    const handleSelectItem = (id) => {
         if (flag === false) return;
         setItems(currItems => [...currItems].map(item => item.id === id ? { ...item, selected: !item.selected } : item))
+    };
+
+    const handleOpenItemBetLevelSelection = (e) => {
+        e.preventDefault();
+        itemBetlLevelSelectionRef.current.classList.remove('hidden');
     };
 
     const handleBetLevelChanged = (id, value) => {
@@ -130,17 +138,18 @@ export default function Board() {
 
     return (
         <>
+            <ItemBetLevelSelection ref={itemBetlLevelSelectionRef} />
             <section
                 className='grid grid-cols-3 grid-rows-2 gap-3 p-4 items-center justify-items-center border-black border-[4px] shadow-[6px_8px_0_0_black] bg-gray-300'
-                onClick={handleSelect}
             >
                 {items.map((item, index) => {
                     return (
                         <Item
                             key={index}
                             {...item}
-                            handleSelect={handleSelect}
+                            handleSelectItem={handleSelectItem}
                             handleBetLevelChanged={handleBetLevelChanged}
+                            handleOpenItemBetLevelSelection={handleOpenItemBetLevelSelection}
                         />
                     )
                 })}
@@ -149,14 +158,14 @@ export default function Board() {
             <div className='flex flex-row justify-center items-center w-[250px] h-[5rem] gap-7'>
                 <div className='w-[100px] h-[50px]'>
                     <button
-                        className='border-black border-[4px] w-[100%] h-[100%] shadow-[4px_5px_0_0_black] select-none hover:shadow-none hover:m-[2px_0_0_4px] hover:shadow-gray-600 hover:text-gray-600 hover:border-gray-600 transition-all font-bold'
+                        className='button--style button--hover'
                         onClick={handleRoll}
                     >Roll</button>
                 </div>
 
                 <div className='w-[100px] h-[50px]'>
                     <button
-                        className='border-black border-[4px] w-[100%] h-[100%] shadow-[4px_5px_0_0_black] select-none hover:shadow-none hover:m-[2px_0_0_4px] hover:shadow-gray-600 hover:text-gray-600 hover:border-gray-600 transition-all font-bold'
+                        className='button--style button--hover'
                         onClick={handleReset}
                     >
                         Reset

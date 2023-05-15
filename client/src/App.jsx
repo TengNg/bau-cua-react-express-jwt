@@ -15,8 +15,8 @@ function App() {
                             <Route key={index} path={path} element={<Home />} />
                         )
                     })}
-                    <Route path="/login" element={<Login />} />
                     <Route path="/gameplay" element={<Gameplay />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/*" element={<Missing />} />
                 </Routes>

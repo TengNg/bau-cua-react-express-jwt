@@ -18,8 +18,8 @@ export default function Home() {
 
     return (
         <>
-            <div className="w-[100%] h-[100vh] flex flex-col bg-gray-200">
-                <Title />
+            <div className="w-[100%] h-[100vh] flex flex-col bg-gray-300">
+                <Title titleName={"Bau Cua"}/>
                 <NavBar />
                 {/*
                     <div className='box-border border-4 border-black p-5'>

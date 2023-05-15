@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
+import Title from '../components/Title';
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -17,9 +18,12 @@ export default function Login() {
     const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        if (auth.accessToken) {
-            navigate('/gameplay')
-        } else {
+        try {
+            axiosPrivate.get('/login');
+            if (auth?.accessToken) {
+                navigate('/gameplay');
+            }
+        } catch (err) {
             usernameInputEl.current.focus();
         }
     }, [])
@@ -41,7 +45,7 @@ export default function Login() {
     return (
         <>
             <section className='w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2'>
-                <h1 className='text-center m-5'>Sign In</h1>
+                <Title titleName={"Login"} />
                 <form onSubmit={handleSubmit} className='login-form'>
                     <label htmlFor="username">Username:</label>
                     <input
