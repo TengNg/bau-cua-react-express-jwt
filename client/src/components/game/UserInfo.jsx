@@ -13,7 +13,7 @@ export default function UserInfo() {
     const save = async () => {
         let gameData = userData?.user?.gameData;
         await axiosPrivate.post('/update', JSON.stringify({ gameData }));
-        alert('Game save');
+        alert('Game saved');
     };
 
     const handleLogout = async () => {

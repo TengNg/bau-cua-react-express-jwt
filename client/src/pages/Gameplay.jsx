@@ -46,7 +46,6 @@ export default function Gameplay() {
     useEffect(() => {
         window.addEventListener("beforeunload", async (ev) => {
             ev.preventDefault();
-            await axiosPrivate.post('/update', JSON.stringify({ gameData }));
             return ev.returnValue = "Press CTRL+S or SAVE button to save the current data";
         });
 

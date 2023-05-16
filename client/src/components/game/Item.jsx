@@ -15,6 +15,7 @@ export default function Item({
     }
 
     const openBetLevelSelection = (e) => {
+        if (e.currentTarget !== e.target) return;
         setCurrentItemId(id);
         handleOpenItemBetLevelSelection(e);
     }
@@ -23,8 +24,8 @@ export default function Item({
         <>
             <div
                 className={`relative w-[100px] h-[100px] border-black border-[4px] grid place-items-center select-none cursor-pointer font-bold ${selected ? 'bg-gray-400 text-white' : 'bg-[whitesmoke]'}`}
-                onClick={(e) => select(e)}
-                onContextMenu={(e) => openBetLevelSelection(e)}
+                onClick={canSelect ? (e) => select(e) : undefined}
+                onContextMenu={canSelect ? (e) => openBetLevelSelection(e) : undefined}
             >
                 {name}
                 {canSelect && (

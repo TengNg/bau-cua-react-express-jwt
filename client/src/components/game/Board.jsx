@@ -76,7 +76,7 @@ export default function Board() {
                 );
                 return newData;
             });
-            showAlert(true, `Total money: $${calculateWinningMoney(resultItems, selectedItems, userData.user.gameData.totalMoney)}`);
+            showAlert(true, 'Please check your result');
         }
     }, [resultItems]);
 

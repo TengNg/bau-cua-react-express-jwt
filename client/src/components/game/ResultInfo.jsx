@@ -1,7 +1,6 @@
 import React from 'react'
 import Item from './Item'
 
-// {flag === false && <p className='text-gray-700 font-bold'>Waiting: {counter}s. Please check your result</p>}
 export default function ResultInfo({ resultItems, counter, flag }) {
     return (
         <>
