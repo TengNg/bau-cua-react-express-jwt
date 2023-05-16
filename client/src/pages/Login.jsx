@@ -44,12 +44,18 @@ export default function Login() {
 
     return (
         <>
-            <section className='w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2'>
+            <section className='relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'>
                 <Title titleName={"Login"} />
-                <form onSubmit={handleSubmit} className='login-form'>
-                    <label htmlFor="username">Username:</label>
+                <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
+                    <button
+                        className='button--style button--hover'
+                        onClick={() => navigate(from, { replace: true })}
+                    >Back</button>
+                </div>
+                <form onSubmit={handleSubmit} className='flex flex-col section--style p-3'>
+                    <label htmlFor="username" className='font-bold'>Username:</label>
                     <input
-                        className='border-[3px] border-black'
+                        className='border-[4px] border-black p-1'
                         type="text"
                         id="username"
                         autoComplete="off"
@@ -59,9 +65,9 @@ export default function Login() {
                         required
                     />
 
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password" className='font-bold'>Password:</label>
                     <input
-                        className='border-[3px] border-black'
+                        className='border-[4px] border-black p-1'
                         type="password"
                         id="password"
                         onChange={(e) => setPassword(e.target.value)}
@@ -70,22 +76,19 @@ export default function Login() {
                         required
                     />
 
-                    <button className='mt-4 mx-auto border-black border-[3px] w-fit'>Sign In</button>
+                    <div className='w-[70%] h-[3rem] m-[1rem_auto]'>
+                        <button className='button--style button--hover'>Sign Up</button>
+                    </div>
                 </form>
 
-                <div className='items-start w-[300px] p-4'>
-                    <p>
-                        Need an Account?<br />
-                        <span>
-                            <Link to="/register">Sign Up</Link>
-                        </span>
-                    </p>
 
-                    <p>
-                        <span>
-                            <Link to="/">Go back to Home</Link>
-                        </span>
-                    </p>
+                <div className='items-start w-[300px] p-4 font-bold'>
+                    Already have an account?
+                    <div className='w-[150px] h-[3rem]'>
+                        <Link className='text-black hover:text-black' to="/register">
+                            <button className='button--style button--hover'>Sign up</button>
+                        </Link>
+                    </div>
                 </div>
             </section>
         </>

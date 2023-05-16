@@ -78,15 +78,15 @@ export default function Register() {
             <section className='relative w-[100%] h-[100vh] flex flex-col items-center p-5 gap-2 bg-gray-300'>
                 <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
                     <button
-                        className='button--style'
+                        className='button--style button--hover'
                         onClick={() => navigate(from, { replace: true })}
                     >Back</button>
                 </div>
                 <Title titleName={"Register"} />
                 <form onSubmit={handleSubmit} className='flex flex-col section--style p-3'>
-                    <label htmlFor="username">Username:</label>
+                    <label htmlFor="username" className='font-bold'>Username:</label>
                     <input
-                        className='border-[3px] border-black'
+                        className='border-[4px] border-black p-1'
                         type="text"
                         id="username"
                         autoComplete="off"
@@ -96,9 +96,9 @@ export default function Register() {
                         required
                     />
 
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password" className='font-bold'>Password:</label>
                     <input
-                        className='border-[3px] border-black'
+                        className='border-[4px] border-black p-1'
                         type="password"
                         id="password"
                         ref={passwordInputEl}
@@ -108,9 +108,9 @@ export default function Register() {
                         required
                     />
 
-                    <label htmlFor="password">Confirm Password:</label>
+                    <label htmlFor="password" className='font-bold'>Confirm Password:</label>
                     <input
-                        className='border-[3px] border-black'
+                        className='border-[4px] border-black p-1'
                         type="confirmed-password"
                         id="confirmed-password"
                         ref={confirmedPasswordInputEl}
@@ -121,7 +121,7 @@ export default function Register() {
                     />
 
                     <div className='w-[70%] h-[3rem] m-[1rem_auto]'>
-                        <button className='button--style'>Sign Up</button>
+                        <button className='button--style button--hover'>Sign Up</button>
                     </div>
 
                 </form>
@@ -131,7 +131,7 @@ export default function Register() {
                     Already have an Account?
                     <div className='w-[150px] h-[3rem]'>
                         <Link className='text-black hover:text-black' to="/login">
-                            <button className='button--style'>Login</button>
+                            <button className='button--style button--hover'>Login</button>
                         </Link>
                     </div>
                 </div>
