@@ -6,7 +6,7 @@ import SettingsMenu from './SettingsMenu'
 import { useNavigate, useLocation } from 'react-router-dom'
 
 export default function GameplayInfo({ isDataLoaded }) {
-    const [settingsOpen, setSettingsOpen] = useState(true);
+    const [settingsOpen, setSettingsOpen] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();

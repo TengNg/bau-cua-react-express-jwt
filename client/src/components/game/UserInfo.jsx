@@ -10,14 +10,14 @@ export default function UserInfo() {
 
     const navigate = useNavigate();
 
-    const save = () => {
+    const save = async () => {
         let gameData = userData?.user?.gameData;
-        axiosPrivate.post('/update', JSON.stringify({ gameData }));
+        await axiosPrivate.post('/update', JSON.stringify({ gameData }));
+        alert('Game save');
     };
 
-    const handleLogout = async (e) => {
+    const handleLogout = async () => {
         let gameData = userData?.user?.gameData;
-        e.preventDefault();
         try {
             await axiosPrivate.post('/update', JSON.stringify({ gameData }));
             await axiosPrivate.get('/logout');

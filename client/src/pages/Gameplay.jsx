@@ -9,7 +9,7 @@ import useAuth from '../hooks/useAuth';
 
 export default function Gameplay() {
     const { userData, setUserData } = useGameplayData();
-    const { auth, setAuth } = useAuth();
+    const { setAuth } = useAuth();
 
     const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -44,9 +44,9 @@ export default function Gameplay() {
     }, [])
 
     useEffect(() => {
-        window.addEventListener("beforeunload", (ev) => {
+        window.addEventListener("beforeunload", async (ev) => {
             ev.preventDefault();
-            alert("Game saved");
+            await axiosPrivate.post('/update', JSON.stringify({ gameData }));
             return ev.returnValue = "Press CTRL+S or SAVE button to save the current data";
         });
 
@@ -55,10 +55,11 @@ export default function Gameplay() {
 
     useEffect(() => {
         const gameData = userData?.user?.gameData;
-        window.addEventListener("keydown", function(e) {
+        window.addEventListener("keydown", async function(e) {
             if (e.code === "KeyS" && (navigator.userAgentData.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
                 e.preventDefault();
-                axiosPrivate.post('/update', JSON.stringify({ gameData }));
+                await axiosPrivate.post('/update', JSON.stringify({ gameData }));
+                alert("Game saved");
             }
         }, false);
 

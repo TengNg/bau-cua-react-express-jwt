@@ -1,17 +1,19 @@
 import React from 'react'
 import Item from './Item'
 
-export default function ResultInfo({ resultItems }) {
+// {flag === false && <p className='text-gray-700 font-bold'>Waiting: {counter}s. Please check your result</p>}
+export default function ResultInfo({ resultItems, counter, flag }) {
     return (
         <>
+
             <div
-                className='w-[350px] h-[150px] border-black border-[4px] flex justify-center items-center gap-2 shadow-[5px_7px_0_0_black] bg-gray-300'
+                className='w-[350px] h-[150px] section--style gap-2 flex--center'
             >
-                {resultItems.map((item, index) => {
-                    return (
-                        <Item key={index} { ...item } />
-                    )
-                })}
+                {
+                    flag === false
+                    ? <p className='text-gray-700 font-bold'>Waiting: {counter}s.</p>
+                    : resultItems.map((item, index) =>  <Item key={index} { ...item } />)
+                }
             </div>
         </>
     )

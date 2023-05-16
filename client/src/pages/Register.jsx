@@ -84,9 +84,9 @@ export default function Register() {
                 </div>
                 <Title titleName={"Register"} />
                 <form onSubmit={handleSubmit} className='flex flex-col section--style p-3'>
-                    <label htmlFor="username" className='font-bold'>Username:</label>
+                    <label htmlFor="username" className='label--style'>Username:</label>
                     <input
-                        className='border-[4px] border-black p-1'
+                        className='border-[4px] border-black p-1 font-bold'
                         type="text"
                         id="username"
                         autoComplete="off"
@@ -96,9 +96,9 @@ export default function Register() {
                         required
                     />
 
-                    <label htmlFor="password" className='font-bold'>Password:</label>
+                    <label htmlFor="password" className='label--style'>Password:</label>
                     <input
-                        className='border-[4px] border-black p-1'
+                        className='border-[4px] border-black p-1 font-bold'
                         type="password"
                         id="password"
                         ref={passwordInputEl}
@@ -108,9 +108,9 @@ export default function Register() {
                         required
                     />
 
-                    <label htmlFor="password" className='font-bold'>Confirm Password:</label>
+                    <label htmlFor="password" className='label--style'>Confirm Password:</label>
                     <input
-                        className='border-[4px] border-black p-1'
+                        className='border-[4px] border-black p-1 font-bold'
                         type="confirmed-password"
                         id="confirmed-password"
                         ref={confirmedPasswordInputEl}
@@ -121,13 +121,13 @@ export default function Register() {
                     />
 
                     <div className='w-[70%] h-[3rem] m-[1rem_auto]'>
-                        <button className='button--style button--hover'>Sign Up</button>
+                        <button className='button--style button--hover bg-white'>Sign Up</button>
                     </div>
 
                 </form>
 
 
-                <div className='items-start w-[300px] p-4 font-bold'>
+                <div className='items-start w-[300px] p-4 font-bold select-none'>
                     Already have an Account?
                     <div className='w-[150px] h-[3rem]'>
                         <Link className='text-black hover:text-black' to="/login">

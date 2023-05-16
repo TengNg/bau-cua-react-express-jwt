@@ -50,30 +50,22 @@ export default function Board() {
     const [flag, setFlag] = useState(true);
     const [counter, setCounter] = useState(WAITING_TIME);
     const [intervalId, setIntervalId] = useState();
-    const itemBetlLevelSelectionRef = useRef();
-
     const [currentItemId, setCurrentItemId] = useState(null);
+    const itemBetlLevelSelectionRef = useRef();
 
     const selectedItems = items.filter(item => item.selected === true);
 
-    const startTimer = () => {
-        const id = setInterval(() => {
-            setCounter(counter => counter - 1)
-        }, 1000)
-        setIntervalId(id)
-    };
-
-    const stopTimer = () => {
-        clearInterval(intervalId);
-        setItems(itemsData);
-        setCounter(WAITING_TIME);
-        showAlert(false, '');
-        setResultItems([])
-        setFlag(true);
-    };
+    useEffect(() => {
+        let timer = null;
+        if (flag === false) {
+            timer = setTimeout(() => {
+                stopTimer();
+            }, WAITING_TIME * 1000);
+        }
+        () => clearTimeout(timer);
+    }, [flag]);
 
     useEffect(() => {
-        let timer = null
         if (resultItems.length > 0) {
             setUserData(prevData => {
                 const newData = { ...prevData };
@@ -84,15 +76,25 @@ export default function Board() {
                 );
                 return newData;
             });
-            timer = setTimeout(() => {
-                setItems(itemsData);
-                setResultItems([])
-                setFlag(true);
-                stopTimer();
-            }, WAITING_TIME * 1000);
+            showAlert(true, `Total money: $${calculateWinningMoney(resultItems, selectedItems, userData.user.gameData.totalMoney)}`);
         }
-        return () => clearTimeout(timer)
-    }, [resultItems])
+    }, [resultItems]);
+
+    const startTimer = () => {
+        setFlag(false);
+        setResultItems([]);
+        const id = setInterval(() => {
+            setCounter(counter => counter - 1)
+        }, 1000)
+        setIntervalId(id)
+    };
+
+    const stopTimer = () => {
+        setResultItems(generateResultItems());
+        clearInterval(intervalId);
+        setCounter(WAITING_TIME);
+        setFlag(true);
+    };
 
     const showAlert = (show, msg) => {
         setAlert({ show, msg });
@@ -128,13 +130,15 @@ export default function Board() {
         } else {
             startTimer()
             setFlag(false)
-            showAlert(true, 'Waiting...')
-            setResultItems(() => generateResultItems());
         }
     };
 
     const handleReset = () => {
-        stopTimer();
+        setResultItems([]);
+        clearInterval(intervalId);
+        setFlag(true);
+        setCounter(WAITING_TIME);
+        showAlert(false, '');
     };
 
     return (
@@ -182,9 +186,9 @@ export default function Board() {
 
             <ResultInfo
                 resultItems={resultItems}
+                counter={counter}
+                flag={flag}
             />
-
-            {flag === false && <p className='text-gray-700'>Waiting: {counter}s. Please check your result</p>}
 
             {alert.show && <Alert showAlert={showAlert}{...alert} />}
         </>

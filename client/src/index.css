@@ -22,6 +22,10 @@
     .section--style {
         @apply border-black border-[4px] shadow-[6px_8px_0_0_black] bg-gray-200
     }
+
+    .label--style {
+        @apply font-bold select-none
+    }
 }
 
 :root {

@@ -38,7 +38,7 @@ export default function Login() {
             setPassword('');
             navigate('/gameplay', { replace: true });
         } catch (err) {
-            navigate(from, { replace: true });
+            navigate('/login', { replace: true });
         }
     }
 
@@ -53,9 +53,9 @@ export default function Login() {
                     >Back</button>
                 </div>
                 <form onSubmit={handleSubmit} className='flex flex-col section--style p-3'>
-                    <label htmlFor="username" className='font-bold'>Username:</label>
+                    <label htmlFor="username" className='label--style'>Username:</label>
                     <input
-                        className='border-[4px] border-black p-1'
+                        className='border-[4px] border-black p-1 font-bold'
                         type="text"
                         id="username"
                         autoComplete="off"
@@ -65,9 +65,9 @@ export default function Login() {
                         required
                     />
 
-                    <label htmlFor="password" className='font-bold'>Password:</label>
+                    <label htmlFor="password" className='label--style'>Password:</label>
                     <input
-                        className='border-[4px] border-black p-1'
+                        className='border-[4px] border-black p-1 font-bold select-none'
                         type="password"
                         id="password"
                         onChange={(e) => setPassword(e.target.value)}
@@ -77,12 +77,12 @@ export default function Login() {
                     />
 
                     <div className='w-[70%] h-[3rem] m-[1rem_auto]'>
-                        <button className='button--style button--hover'>Sign Up</button>
+                        <button className='button--style button--hover'>Sign in</button>
                     </div>
                 </form>
 
 
-                <div className='items-start w-[300px] p-4 font-bold'>
+                <div className='items-start w-[300px] p-4 font-bold select-none'>
                     Already have an account?
                     <div className='w-[150px] h-[3rem]'>
                         <Link className='text-black hover:text-black' to="/register">
