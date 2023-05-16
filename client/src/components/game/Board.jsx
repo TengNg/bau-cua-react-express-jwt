@@ -50,8 +50,9 @@ export default function Board() {
     const [flag, setFlag] = useState(true);
     const [counter, setCounter] = useState(WAITING_TIME);
     const [intervalId, setIntervalId] = useState();
-
     const itemBetlLevelSelectionRef = useRef();
+
+    const [currentItemId, setCurrentItemId] = useState(null);
 
     const selectedItems = items.filter(item => item.selected === true);
 
@@ -107,9 +108,9 @@ export default function Board() {
         itemBetlLevelSelectionRef.current.classList.remove('hidden');
     };
 
-    const handleBetLevelChanged = (id, value) => {
+    const handleBetLevelChanged = (value) => {
         if (flag === false) return;
-        setItems(currItems => [...currItems].map(item => item.id === id ? { ...item, betLevel: value } : item))
+        setItems(currItems => [...currItems].map(item => item.id === currentItemId ? { ...item, betLevel: value } : item));
     };
 
     const handleRoll = () => {
@@ -138,7 +139,13 @@ export default function Board() {
 
     return (
         <>
-            <ItemBetLevelSelection ref={itemBetlLevelSelectionRef} />
+            <ItemBetLevelSelection
+                ref={itemBetlLevelSelectionRef}
+                items={items}
+                handleBetLevelChanged={handleBetLevelChanged}
+                currentItemId={currentItemId}
+            />
+
             <section
                 className='grid grid-cols-3 grid-rows-2 gap-3 p-4 items-center justify-items-center border-black border-[4px] shadow-[6px_8px_0_0_black] bg-gray-300'
             >
@@ -147,8 +154,8 @@ export default function Board() {
                         <Item
                             key={index}
                             {...item}
+                            setCurrentItemId={setCurrentItemId}
                             handleSelectItem={handleSelectItem}
-                            handleBetLevelChanged={handleBetLevelChanged}
                             handleOpenItemBetLevelSelection={handleOpenItemBetLevelSelection}
                         />
                     )
