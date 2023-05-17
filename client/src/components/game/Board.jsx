@@ -7,7 +7,7 @@ import useGameplayData from '../../hooks/useGameplayData';
 import itemsData from '../../data/items.json';
 import ItemBetLevelSelection from './ItemBetLevelSelection';
 
-const WAITING_TIME = 8;
+const WAITING_TIME = 3;
 
 const generateResultItems = () => {
     const randomItems = []
@@ -46,37 +46,44 @@ export default function Board() {
 
     const [items, setItems] = useState(itemsData);
     const [resultItems, setResultItems] = useState([]);
-    const [alert, setAlert] = useState({ show: false, msg: "" })
+    const [alert, setAlert] = useState({ show: false, msg: "", duration: 3000 });
     const [flag, setFlag] = useState(true);
     const [counter, setCounter] = useState(WAITING_TIME);
     const [intervalId, setIntervalId] = useState();
     const [currentItemId, setCurrentItemId] = useState(null);
+
     const itemBetlLevelSelectionRef = useRef();
+    const timerId = useRef(null);
 
     const selectedItems = items.filter(item => item.selected === true);
 
     useEffect(() => {
-        let timer = null;
         if (flag === false) {
-            timer = setTimeout(() => {
+            timerId.current = setTimeout(() => {
                 stopTimer();
             }, WAITING_TIME * 1000);
         }
-        () => clearTimeout(timer);
+        () => clearTimeout(timerId.current);
     }, [flag]);
 
     useEffect(() => {
         if (resultItems.length > 0) {
+            const winningMoney = calculateWinningMoney(
+                resultItems,
+                selectedItems,
+                userData.user.gameData.betSize
+            );
             setUserData(prevData => {
                 const newData = { ...prevData };
-                newData.user.gameData.totalMoney += calculateWinningMoney(
-                    resultItems,
-                    selectedItems,
-                    prevData.user.gameData.betSize
-                );
+                newData.user.gameData.totalMoney += winningMoney;
                 return newData;
             });
-            showAlert(true, 'Please check your result');
+
+            if (winningMoney > 0) {
+                showAlert(true, `Win: $${winningMoney}`, 5000);
+            } else {
+                showAlert(true, `Lose: $${winningMoney.toString().slice(1)}`, 5000);
+            }
         }
     }, [resultItems]);
 
@@ -84,9 +91,9 @@ export default function Board() {
         setFlag(false);
         setResultItems([]);
         const id = setInterval(() => {
-            setCounter(counter => counter - 1)
-        }, 1000)
-        setIntervalId(id)
+            setCounter(counter => counter - 1);
+        }, 1000);
+        setIntervalId(id);
     };
 
     const stopTimer = () => {
@@ -96,8 +103,8 @@ export default function Board() {
         setFlag(true);
     };
 
-    const showAlert = (show, msg) => {
-        setAlert({ show, msg });
+    const showAlert = (show, msg, duration = 2000) => {
+        setAlert({ show, msg, duration });
     };
 
     const handleSelectItem = (id) => {
@@ -128,17 +135,20 @@ export default function Board() {
         } else if (totalBetLevel * betSize > totalMoney) {
             showAlert(true, 'BetMoney > CurrentMoney');
         } else {
-            startTimer()
-            setFlag(false)
+            startTimer();
+            setFlag(false);
+            showAlert('', false);
         }
     };
 
     const handleReset = () => {
-        setResultItems([]);
+        clearTimeout(timerId.current);
         clearInterval(intervalId);
-        setFlag(true);
+        setItems(currItems => [...currItems].map(item => item.selected ? { ...item, selected: false } : item));
+        setResultItems([]);
         setCounter(WAITING_TIME);
         showAlert(false, '');
+        setFlag(true);
     };
 
     return (
@@ -169,7 +179,7 @@ export default function Board() {
             <div className='flex flex-row justify-center items-center w-[250px] h-[5rem] gap-7'>
                 <div className='w-[100px] h-[50px]'>
                     <button
-                        className='button--style button--hover'
+                        className={`button--style button--hover ${!flag ? 'button--clicked bg-gray-400' : ''}`}
                         onClick={handleRoll}
                     >Roll</button>
                 </div>
@@ -190,7 +200,7 @@ export default function Board() {
                 flag={flag}
             />
 
-            {alert.show && <Alert showAlert={showAlert}{...alert} />}
+            {alert.show && <Alert showAlert={showAlert} {...alert} />}
         </>
     )
 }

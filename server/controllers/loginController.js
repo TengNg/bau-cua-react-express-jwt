@@ -3,10 +3,10 @@ const User = require('../models/User.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const isLoggedIn = () => {
+const isLoggedIn = (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.token) return res.status(401).json({ msg: "error" });
-    return res.json({ msg: "user is logged in" });
+    return res.status(200).json({ msg: "user is logged in" });
 };
 
 const handleLogin = async (req, res) => {

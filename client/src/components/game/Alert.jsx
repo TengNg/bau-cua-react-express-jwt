@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 
-export default function Alert({ showAlert, msg }) {
+export default function Alert({ showAlert, msg, duration }) {
     useEffect(() => {
         const id = setTimeout(() => {
             showAlert(false, '');
-        }, 3000)
+        }, duration);
         return () => clearTimeout(id)
     })
 

@@ -26,6 +26,12 @@
     .label--style {
         @apply font-bold select-none
     }
+    .underline--style {
+        @apply before:content-[''] before:absolute before:w-[50%] before:h-[0.5rem] before:bg-black before:bottom-[-0.75rem] before:mx-auto before:left-0 before:right-0 before:transition-all before:duration-500
+    }
+    .underline--hover {
+        @apply before:hover:w-[80%] before:hover:bg-gray-500
+    }
 }
 
 :root {
