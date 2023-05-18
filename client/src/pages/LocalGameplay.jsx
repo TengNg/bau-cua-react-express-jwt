@@ -1,13 +1,13 @@
-import React from 'react'
-import Wrapper from '../components/Wrapper';
+import React, { useEffect, useState } from 'react'
+import Wrapper from '../components/Wrapper'
 import { useNavigate } from 'react-router-dom'
 
-export default function Missing() {
+export default function LocalGameplay() {
     const navigate = useNavigate();
     return (
         <>
             <Wrapper>
-                <h2 className='font-bold'>Looks like you are lost ...</h2>
+                <h2 className='font-bold'>WORK IN PROGRESS...</h2>
                 <div className='w-[17rem] h-[5rem]'>
                     <button
                         className='button--style button--hover'
@@ -20,3 +20,4 @@ export default function Missing() {
         </>
     )
 }
+

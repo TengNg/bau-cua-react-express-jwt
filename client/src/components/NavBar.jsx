@@ -1,30 +1,28 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function NavBar() {
+    const navigate = useNavigate();
     return (
         <>
-            <nav className='flex justify-center items-center h-[40%]'>
-                <Link to='/gameplay'>
+            <nav className='flex justify-center items-center h-[40%] gap-10'>
+                <div className='w-[10rem] h-[5rem]'>
                     <button
-                        className='
-                        w-[12rem]
-                        h-[5rem]
-                        font-bold
-                        text-black
-                        text-2xl
-                        border-[5px]
-                        border-black
-                        rounded-[0px]
-                        shadow-[5px_8px_0_0_black]
-                        transition-all
-                        hover:shadow-none
-                        hover:ml-[5px]
-                        '
+                        className='button--style button--hover'
+                        onClick={() => navigate('/gameplay')}
                     >
                         Play
                     </button>
-                </Link>
+                </div>
+
+                <div className='w-[10rem] h-[5rem]'>
+                    <button
+                        className='button--style button--hover'
+                        onClick={() => navigate('/local')}
+                    >
+                        Local sandbox
+                    </button>
+                </div>
             </nav>
         </>
     )

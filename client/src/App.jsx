@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Gameplay from './pages/Gameplay'
 import Register from './pages/Register'
 import Missing from './pages/Missing'
+import LocalGameplay from './pages/LocalGameplay'
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                         )
                     })}
                     <Route path="/gameplay" element={<Gameplay />} />
+                    <Route path="/local" element={<LocalGameplay />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/*" element={<Missing />} />

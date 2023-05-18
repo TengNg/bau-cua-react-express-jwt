@@ -144,7 +144,11 @@ export default function Board() {
     const handleReset = () => {
         clearTimeout(timerId.current);
         clearInterval(intervalId);
-        setItems(currItems => [...currItems].map(item => item.selected ? { ...item, selected: false } : item));
+        setItems(currItems => [...currItems].map(item => {
+            item.betLevel = 1;
+            item.selected = false;
+            return item;
+        }));
         setResultItems([]);
         setCounter(WAITING_TIME);
         showAlert(false, '');
@@ -156,8 +160,10 @@ export default function Board() {
             <ItemBetLevelSelection
                 ref={itemBetlLevelSelectionRef}
                 items={items}
+                setItems={setItems}
                 handleBetLevelChanged={handleBetLevelChanged}
                 currentItemId={currentItemId}
+                betSize={userData.user.gameData.betSize}
             />
 
             <section
@@ -179,7 +185,7 @@ export default function Board() {
             <div className='flex flex-row justify-center items-center w-[250px] h-[5rem] gap-7'>
                 <div className='w-[100px] h-[50px]'>
                     <button
-                        className={`button--style button--hover ${!flag ? 'button--clicked bg-gray-400' : ''}`}
+                        className={`button--style button--hover ${!flag ? 'button--clicked bg-gray-300' : ''}`}
                         onClick={handleRoll}
                     >Roll</button>
                 </div>
