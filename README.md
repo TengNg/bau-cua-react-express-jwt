@@ -1,7 +1,7 @@
 # bau-cua-reactjs
 
-A simple Bau Cua game made with Reactjs.
-React Login Authentication with JWT.
+A simple Bau Cua game made with ReactJS.\
+React Login Authentication with JWT.\
 REST API with MongoDB.
 
 ## Images
@@ -10,11 +10,15 @@ REST API with MongoDB.
 
 ![BauCua HomePage](./images/homepage.png)
 
+---
+
 **Forms**
 
 ![BauCua Signup Form](./images/signupform.png)
 
 ![BauCua Login Form](./images/loginform.png)
+
+---
 
 **Ingame**
 
