@@ -8,13 +8,13 @@ REST API with MongoDB.
 
 **Home Page**
 
-![BauCua HomePage](./images/)
+![BauCua HomePage](./images/homepage.png)
 
 **Forms**
 
 ![BauCua Signup Form](./images/signupform.png)
 
-![BauCua Login Form](./images/login.png)
+![BauCua Login Form](./images/loginform.png)
 
 **Ingame**
 
