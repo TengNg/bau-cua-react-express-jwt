@@ -5,7 +5,7 @@ import SettingsMenu from './SettingsMenu'
 
 import { useNavigate, useLocation } from 'react-router-dom'
 
-export default function GameplayInfo({ isDataLoaded }) {
+export default function GameplayInfo({ userData, setUserData, isDataLoaded, isLocalGameplay }) {
     const [settingsOpen, setSettingsOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -31,9 +31,20 @@ export default function GameplayInfo({ isDataLoaded }) {
                         </div>
                     </div>
 
-                    <UserInfo />
-                    <Board />
+                    <UserInfo
+                        userData={userData}
+                        setUserData={setUserData}
+                        isLocalGameplay={isLocalGameplay}
+                    />
+
+                    <Board
+                        userData={userData}
+                        setUserData={setUserData}
+                    />
+
                     <SettingsMenu
+                        userData={userData}
+                        setUserData={setUserData}
                         settingsOpen={settingsOpen}
                         setSettingsOpen={setSettingsOpen}
                     />

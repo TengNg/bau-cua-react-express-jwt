@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import Wrapper from '../components/Wrapper'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
+// import Wrapper from '../components/Wrapper'
+import useLocalStorage from '../hooks/useLocalStorage'
+import startingData from '../data/local-sandbox-starting-data.json'
+import GameplayInfo from '../components/game/GameplayInfo'
+
+const key = 'LOCAL_SANDBOX_KEY'
 
 export default function LocalGameplay() {
-    const navigate = useNavigate();
+    const [data, setData] = useLocalStorage(key, startingData);
+
     return (
         <>
-            <Wrapper>
-                <h2 className='font-bold'>WORK IN PROGRESS...</h2>
-                <div className='w-[17rem] h-[5rem]'>
-                    <button
-                        className='button--style button--hover'
-                        onClick={() => navigate('/', { replace: true })}
-                    >
-                        Go back to home page
-                    </button>
-                </div>
-            </Wrapper>
+            <GameplayInfo
+                isDataLoaded={true}
+                isLocalGameplay={true}
+                userData={data}
+                setUserData={setData}
+            />
         </>
     )
 }

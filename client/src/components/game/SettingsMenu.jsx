@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import useGameplayData from '../../hooks/useGameplayData';
+import Alert from './Alert';
 
 const ADD_MORE_MONEY_OPTIONS = [5_000, 10_000, 20_000];
 const BET_SIZE_OPTIONS = [5_000, 10_000, 20_000];
 
-export default function SettingsMenu({ settingsOpen, setSettingsOpen }) {
-    const { userData, setUserData } = useGameplayData();
-
+export default function SettingsMenu({ userData, setUserData, settingsOpen, setSettingsOpen }) {
     const wrapperRef = useRef();
+
+    const [alert, setAlert] = useState({ show: false, msg: "", duration: 3000 });
+
+    const showAlert = (show, msg, duration = 2000) => {
+        setAlert({ show, msg, duration });
+    };
 
     useEffect(() => {
         if (settingsOpen === true) {
@@ -32,13 +36,15 @@ export default function SettingsMenu({ settingsOpen, setSettingsOpen }) {
     }, [betSize]);
 
     const handleAddMoreMoney = (val) => {
-        setUserData(prevData => {
-            const newData = { ...prevData };
-            if (newData.user.gameData.totalMoney + val <= 200_000) {
+        if (userData.user.gameData.totalMoney + val > 200_000) {
+            showAlert(true, 'Maximum $200,000');
+        } else {
+            setUserData(prevData => {
+                const newData = { ...prevData };
                 newData.user.gameData.totalMoney += val;
-            }
-            return newData;
-        });
+                return newData;
+            });
+        }
     };
 
     const handleChangeBetSize = (e) => {
@@ -92,6 +98,8 @@ export default function SettingsMenu({ settingsOpen, setSettingsOpen }) {
                         })}
                     </section>
                 </div>
+
+                {alert.show && <Alert showAlert={showAlert} {...alert} />}
             </div>
         </>
     )

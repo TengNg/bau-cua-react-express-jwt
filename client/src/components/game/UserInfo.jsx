@@ -1,11 +1,9 @@
 import React from 'react'
 import { axiosPrivate } from '../../api/axios';
-import useGameplayData from '../../hooks/useGameplayData';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
-export default function UserInfo() {
-    const { userData, setUserData } = useGameplayData();
+export default function UserInfo({ userData, setUserData, isLocalGameplay }) {
     const { setAuth } = useAuth();
 
     const navigate = useNavigate();
@@ -39,9 +37,13 @@ export default function UserInfo() {
                     <h3><span className='font-bold'>Total Money: </span>${userData?.user?.gameData.totalMoney}</h3>
                     <h3><span className='font-bold'>Bet Size: </span>{userData?.user?.gameData.betSize}</h3>
                 </div>
-                <div className='w-[80%] h-[0.25rem] bg-black'></div>
-                <div className='w-[85%] h-[3rem]'> <button onClick={save} className='button--style button--hover'>Save</button> </div>
-                <div className='w-[85%] h-[3rem]'> <button onClick={handleLogout} className='button--style button--hover'>Logout</button> </div>
+                {isLocalGameplay === false && (
+                    <>
+                        <div className='w-[80%] h-[0.25rem] bg-black'></div>
+                        <div className='w-[85%] h-[3rem]'> <button onClick={save} className='button--style button--hover'>Save</button> </div>
+                        <div className='w-[85%] h-[3rem]'> <button onClick={handleLogout} className='button--style button--hover'>Logout</button> </div>
+                    </>
+                )}
             </div>
         </>
     )

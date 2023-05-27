@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import Item from './Item';
 import ResultInfo from './ResultInfo';
 import Alert from './Alert';
-import useGameplayData from '../../hooks/useGameplayData';
 
 import itemsData from '../../data/items.json';
 import ItemBetLevelSelection from './ItemBetLevelSelection';
@@ -41,9 +40,7 @@ const calculateWinningMoney = (resultItems, selectedItems, winningMoneyPerItem) 
     return winningMoney
 }
 
-export default function Board() {
-    const { userData, setUserData } = useGameplayData();
-
+export default function Board({ userData, setUserData }) {
     const [items, setItems] = useState(itemsData);
     const [resultItems, setResultItems] = useState([]);
     const [alert, setAlert] = useState({ show: false, msg: "", duration: 3000 });

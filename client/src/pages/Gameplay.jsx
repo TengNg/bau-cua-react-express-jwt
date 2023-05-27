@@ -19,27 +19,29 @@ export default function Gameplay() {
     const location = useLocation();
 
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-
-        const getGameData = async () => {
-            try {
-                const response = await axiosWithInterceptors.get('/gameplay', { signal: controller.signal });
-                if (isMounted) {
-                    setUserData(response.data);
-                    setAuth(response.data);
-                    setIsDataLoaded(true);
+        if (Object.keys(userData).length === 0) {
+            let isMounted = true;
+            const controller = new AbortController();
+            const getGameData = async () => {
+                try {
+                    const response = await axiosWithInterceptors.get('/gameplay', { signal: controller.signal });
+                    if (isMounted) {
+                        setUserData(response.data);
+                        setAuth(response.data);
+                        setIsDataLoaded(true);
+                    }
+                } catch (err) {
+                    navigate('/login', { state: { from: location }, replace: true });
                 }
-            } catch (err) {
-                navigate('/login', { state: { from: location }, replace: true });
             }
-        }
-        getGameData();
-
-        return () => {
-            isMounted = false;
-            setIsDataLoaded(false);
-            controller.abort();
+            getGameData();
+            return () => {
+                isMounted = false;
+                setIsDataLoaded(false);
+                controller.abort();
+            }
+        } else {
+            setIsDataLoaded(true);
         }
     }, [])
 
@@ -67,7 +69,12 @@ export default function Gameplay() {
 
     return (
         <>
-            <GameplayInfo isDataLoaded={isDataLoaded} />
+            <GameplayInfo
+                isDataLoaded={isDataLoaded}
+                isLocalGameplay={false}
+                userData={userData}
+                setUserData={setUserData}
+            />
         </>
     )
 }

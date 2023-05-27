@@ -1,0 +1,10 @@
+{
+    "user": {
+        "username": "LocalSandbox",
+        "gameData": {
+            "totalMoney": 200000,
+            "betSize": 10000
+        }
+    },
+    "f1": "none"
+}
