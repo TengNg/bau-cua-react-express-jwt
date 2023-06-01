@@ -13,7 +13,7 @@ export default function GameplayInfo({ userData, setUserData, isDataLoaded, isLo
     const from = location.state?.from?.pathname || "/";
 
     return (
-        <div className='w-[100%] h-[100vh] flex--center flex-col gap-4 relative bg-gray-400'>
+        <>
             {isDataLoaded ? (
                 <>
                     <div className='absolute flex justify-center items-center top-[2rem] left-[2rem] gap-7'>
@@ -50,6 +50,6 @@ export default function GameplayInfo({ userData, setUserData, isDataLoaded, isLo
                     />
                 </>
             ) : <h1>Loading...</h1>}
-        </div>
+        </>
     )
 }

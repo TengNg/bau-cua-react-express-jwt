@@ -6,6 +6,7 @@ import useGameplayData from '../hooks/useGameplayData';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import Wrapper from '../components/Wrapper';
 
 export default function Gameplay() {
     const { userData, setUserData } = useGameplayData();
@@ -69,12 +70,14 @@ export default function Gameplay() {
 
     return (
         <>
-            <GameplayInfo
-                isDataLoaded={isDataLoaded}
-                isLocalGameplay={false}
-                userData={userData}
-                setUserData={setUserData}
-            />
+            <Wrapper>
+                <GameplayInfo
+                    isDataLoaded={isDataLoaded}
+                    isLocalGameplay={false}
+                    userData={userData}
+                    setUserData={setUserData}
+                />
+            </Wrapper>
         </>
     )
 }

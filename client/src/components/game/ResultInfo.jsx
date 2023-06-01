@@ -5,9 +5,7 @@ export default function ResultInfo({ resultItems, counter, flag }) {
     return (
         <>
 
-            <div
-                className='w-[350px] h-[150px] section--style gap-2 flex--center'
-            >
+            <div className='w-[350px] h-[150px] section--style gap-2 flex--center'>
                 {
                     flag === false
                     ? <p className='text-gray-700 font-bold'>Waiting: {counter}s.</p>

@@ -1,27 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Alert from './Alert';
+import BoxWrapper from './BoxWrapper';
 
 const ADD_MORE_MONEY_OPTIONS = [5_000, 10_000, 20_000];
 const BET_SIZE_OPTIONS = [5_000, 10_000, 20_000];
 
 export default function SettingsMenu({ userData, setUserData, settingsOpen, setSettingsOpen }) {
-    const wrapperRef = useRef();
-
     const [alert, setAlert] = useState({ show: false, msg: "", duration: 3000 });
 
     const showAlert = (show, msg, duration = 2000) => {
         setAlert({ show, msg, duration });
     };
-
-    useEffect(() => {
-        if (settingsOpen === true) {
-            wrapperRef.current.classList.remove('hidden');
-            wrapperRef.current.classList.toggle('block');
-        } else {
-            wrapperRef.current.classList.remove('block');
-            wrapperRef.current.classList.toggle('hidden');
-        }
-    }, [settingsOpen]);
 
     const [betSize, setBetSize] = useState(() => {
         return userData.user.gameData.betSize;
@@ -47,11 +36,6 @@ export default function SettingsMenu({ userData, setUserData, settingsOpen, setS
         }
     };
 
-    const handleChangeBetSize = (e) => {
-        const value = e.target.innerText.substring(1);
-        setBetSize(+value);
-    };
-
     const handleCloseSettings = (e) => {
         if (e.currentTarget !== e.target) return;
         setSettingsOpen(false);
@@ -59,10 +43,10 @@ export default function SettingsMenu({ userData, setUserData, settingsOpen, setS
 
     return (
         <>
-            <div
-                ref={wrapperRef}
-                className='w-[100%] h-[100%] bg-white bg-opacity-75 absolute grid place-items-center cursor-pointer'
-                onClick={(e) => handleCloseSettings(e)}
+            <BoxWrapper
+                handleClose={handleCloseSettings}
+                isOpen={settingsOpen}
+                displayStringStyle={'grid place-items-center'}
             >
                 <div className='w-[60%] h-[60%] flex--center flex-row section--style bg-gray-300 gap-6 cursor-auto'>
                     <section className='flex--center flex-col section--style min-w-[30%] p-5 gap-3 h-[60%]'>
@@ -72,7 +56,7 @@ export default function SettingsMenu({ userData, setUserData, settingsOpen, setS
                                 <div key={idx} className='w-[70%] h-[3rem]'>
                                     <button
                                         className={`button--style ${betSize === num ? 'button--clicked bg-gray-400 text-white' : ''}`}
-                                        onClick={(e) => handleChangeBetSize(e)}
+                                        onClick={() => setBetSize(num)}
                                     >
                                         ${num}
                                     </button>
@@ -100,7 +84,8 @@ export default function SettingsMenu({ userData, setUserData, settingsOpen, setS
                 </div>
 
                 {alert.show && <Alert showAlert={showAlert} {...alert} />}
-            </div>
+
+            </BoxWrapper>
         </>
     )
 }

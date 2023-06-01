@@ -5,8 +5,8 @@ export default function Item({
     selected,
     canSelect,
     handleSelectItem,
-    handleOpenItemBetLevelSelection,
-    setCurrentItemId
+    setCurrentItemId,
+    setBetLevelSelectionOpen,
 }) {
     const select = (e) => {
         if (e.currentTarget !== e.target) return;
@@ -15,9 +15,9 @@ export default function Item({
     }
 
     const openBetLevelSelection = (e) => {
-        if (e.currentTarget !== e.target) return;
+        e.preventDefault();
         setCurrentItemId(id);
-        handleOpenItemBetLevelSelection(e);
+        setBetLevelSelectionOpen(true);
     }
 
     return (
@@ -28,9 +28,7 @@ export default function Item({
                 onContextMenu={canSelect ? (e) => openBetLevelSelection(e) : undefined}
             >
                 {name}
-                {canSelect && (
-                    <p className='absolute font-bold right-[0.25rem] top-0 m-0 p-0'>{betLevel === 1 ? '' : 'x' + betLevel}</p>
-                )}
+                {canSelect && (<p className='absolute font-bold right-[0.25rem] top-0 m-0 p-0'>{betLevel === 1 ? '' : 'x' + betLevel}</p>)}
             </div>
         </>
     )

@@ -24,7 +24,10 @@ export default function Login() {
                 navigate('/gameplay')
             }
         }
-        isLoggedIn().catch(_ => setSuccess(false));
+        isLoggedIn().catch(_ => {
+            setSuccess(false);
+            usernameInputEl.current.focus();
+        });
     }, []);
 
     const handleSubmit = async (e) => {

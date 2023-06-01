@@ -30,7 +30,10 @@ export default function Register() {
                 navigate('/gameplay')
             }
         }
-        isLoggedIn().catch(_ => setSuccess(false));
+        isLoggedIn().catch(_ => {
+            setSuccess(false);
+            usernameInputEl.current.focus();
+        });
     }, [])
 
     const handleSubmit = async (e) => {
@@ -88,7 +91,7 @@ export default function Register() {
                         ref={usernameInputEl}
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
-                        maxlength="25"
+                        maxLength="25"
                         required
                     />
 

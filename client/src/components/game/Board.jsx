@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Item from './Item';
 import ResultInfo from './ResultInfo';
 import Alert from './Alert';
@@ -48,11 +48,18 @@ export default function Board({ userData, setUserData }) {
     const [counter, setCounter] = useState(WAITING_TIME);
     const [intervalId, setIntervalId] = useState();
     const [currentItemId, setCurrentItemId] = useState(null);
+    const [currentStateChanged, setCurrentStateChanged] = useState(false);
+    const [itemBetLevelSelectionOpen, setItemBetLevelSelectionOpen] = useState(false);
 
-    const itemBetlLevelSelectionRef = useRef();
     const timerId = useRef(null);
 
-    const selectedItems = items.filter(item => item.selected === true);
+    const selectedItems = useMemo(() => items.filter(item => item.selected === true), [items]);
+
+    useEffect(() => {
+        if (selectedItems.length > 0 || flag !== true) {
+            setCurrentStateChanged(true);
+        }
+    }, [items, flag]);
 
     useEffect(() => {
         if (flag === false) {
@@ -91,6 +98,7 @@ export default function Board({ userData, setUserData }) {
             setCounter(counter => counter - 1);
         }, 1000);
         setIntervalId(id);
+        setCurrentStateChanged(true);
     };
 
     const stopTimer = () => {
@@ -107,11 +115,6 @@ export default function Board({ userData, setUserData }) {
     const handleSelectItem = (id) => {
         if (flag === false) return;
         setItems(currItems => [...currItems].map(item => item.id === id ? { ...item, selected: !item.selected } : item))
-    };
-
-    const handleOpenItemBetLevelSelection = (e) => {
-        e.preventDefault();
-        itemBetlLevelSelectionRef.current.classList.remove('hidden');
     };
 
     const handleBetLevelChanged = (value) => {
@@ -139,28 +142,32 @@ export default function Board({ userData, setUserData }) {
     };
 
     const handleReset = () => {
-        clearTimeout(timerId.current);
-        clearInterval(intervalId);
-        setItems(currItems => [...currItems].map(item => {
-            item.betLevel = 1;
-            item.selected = false;
-            return item;
-        }));
-        setResultItems([]);
-        setCounter(WAITING_TIME);
-        showAlert(false, '');
-        setFlag(true);
+        if (currentStateChanged === true) {
+            clearTimeout(timerId.current);
+            clearInterval(intervalId);
+            setItems(currItems => [...currItems].map(item => {
+                item.betLevel = 1;
+                item.selected = false;
+                return item;
+            }));
+            setResultItems([]);
+            setCounter(WAITING_TIME);
+            showAlert(false, '');
+            setFlag(true);
+            setCurrentStateChanged(false);
+        }
     };
 
     return (
         <>
             <ItemBetLevelSelection
-                ref={itemBetlLevelSelectionRef}
                 items={items}
                 setItems={setItems}
-                handleBetLevelChanged={handleBetLevelChanged}
                 currentItemId={currentItemId}
                 betSize={userData.user.gameData.betSize}
+                isOpen={itemBetLevelSelectionOpen}
+                handleBetLevelChanged={handleBetLevelChanged}
+                setIsOpen={setItemBetLevelSelectionOpen}
             />
 
             <section
@@ -173,7 +180,7 @@ export default function Board({ userData, setUserData }) {
                             {...item}
                             setCurrentItemId={setCurrentItemId}
                             handleSelectItem={handleSelectItem}
-                            handleOpenItemBetLevelSelection={handleOpenItemBetLevelSelection}
+                            setBetLevelSelectionOpen={setItemBetLevelSelectionOpen}
                         />
                     )
                 })}
