@@ -17,6 +17,10 @@
         @apply shadow-none m-[2px_0_0_4px] shadow-gray-600 text-gray-600 border-gray-600
     }
 
+    .button--warn {
+        @apply border-red-700 text-red-700 bg-pink-50 shadow-pink-700 hover:shadow-red-700 hover:text-red-700 hover:border-red-700
+     }
+
     .flex--center {
         @apply flex justify-center items-center
     }

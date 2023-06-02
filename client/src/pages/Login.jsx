@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
 import Title from '../components/Title';
 
@@ -16,6 +16,8 @@ export default function Login() {
     const usernameInputEl = useRef();
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
         const isLoggedIn = async () => {
@@ -60,7 +62,7 @@ export default function Login() {
                 <div className='w-[100px] h-[3rem] absolute left-[1rem] top-[1rem]'>
                     <button
                         className='button--style button--hover'
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate(from, { replace: true })}
                     >Back</button>
                 </div>
                 <form onSubmit={handleSubmit} className='flex flex-col section--style p-4'>

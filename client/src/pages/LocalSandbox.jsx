@@ -7,13 +7,13 @@ import PlayWithFriends from '../components/game/PlayWithFriends'
 
 const key = 'LOCAL_SANDBOX_KEY'
 const modes = [
-    { id: 1, name: "Classic (1-player)" },
-    { id: 2, name: "Play with friends (WIP)" },
+    { id: 1, name: "Solo" },
+    { id: 2, name: "Play with friends" },
 ];
 
 export default function LocalSandbox() {
     const [data, setData] = useLocalStorage(key, startingData);
-    const [mode, setMode] = useState(modes[0]);
+    const [mode, setMode] = useState(modes[1]);
 
     return (
         <Wrapper>
@@ -37,14 +37,14 @@ export default function LocalSandbox() {
 
                 <div className='w-[12rem] h-[4rem]'>
                     <button
-                        className='button--style button--hover'
+                        className={`button--style ${mode.id === 1 ? 'button--clicked' : ''}`}
                         onClick={() => setMode(modes[0])}
                     >{modes[0].name}</button>
                 </div>
 
                 <div className='w-[12rem] h-[4rem]'>
                     <button
-                        className='button--style button--hover'
+                        className={`button--style ${mode.id === 2 ? 'button--clicked' : ''}`}
                         onClick={() => setMode(modes[1])}
                     >{modes[1].name}</button>
                 </div>

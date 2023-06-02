@@ -5,9 +5,20 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-export default function AddPlayerBox({ boxOpen, setBoxOpen, players, handleAddPlayer, handleSetPlayer, handleRemovePlayer, handleSetPlayerBetInfo, betRange }) {
+export default function AddPlayerBox({
+    boxOpen,
+    setBoxOpen,
+    players,
+    currentPlayerId,
+    betRange,
+    handleAddPlayer,
+    handleSetPlayer,
+    handleEditPlayer,
+    handleRemovePlayer,
+    handleRemoveAllPlayers,
+    handleSetPlayerBetInfo,
+}) {
     const [selectOpen, setSelectOpen] = useState(false);
-    const [currentPlayerId, setCurrentPlayerId] = useState(null);
 
     const handleCloseBox = (e) => {
         if (e.currentTarget !== e.target) return;
@@ -20,10 +31,9 @@ export default function AddPlayerBox({ boxOpen, setBoxOpen, players, handleAddPl
         setSelectOpen(false);
     }
 
-    const handleEditPlayer = (id) => {
+    const editPlayerBetInfo = (id) => {
         setSelectOpen(true);
-        const selectedPlayer = players.find(p => p.id === id);
-        setCurrentPlayerId(selectedPlayer.id);
+        handleEditPlayer(id);
     }
 
     const getCurrentPlayerWithId = () => currentPlayerId === null ? undefined : players.filter(player => player.id === currentPlayerId)[0];
@@ -44,22 +54,28 @@ export default function AddPlayerBox({ boxOpen, setBoxOpen, players, handleAddPl
                 handleClose={handleCloseBox}
                 displayStringStyle={'grid place-items-center'}
             >
-                <div className='w-[80%] h-[80%] flex--center flex-col section--style bg-gray-300 gap-3 cursor-auto'>
-                    <div className='w-[90%] h-[30rem] border-[3px] border-black flex flex-col items-center justify-[center_safe] gap-5 p-4 overflow-y-scroll'>
+                <div className='w-[80%] h-[90%] flex--center flex-col section--style bg-gray-300 gap-3 cursor-auto relative'>
+                    <div className='w-[6rem] h-[4rem] absolute top-[1rem] right-[1rem]'>
+                        <button
+                            className="button--style button--hover absolute "
+                            onClick={handleCloseBox}
+                        >Close</button>
+                    </div>
+                    <div className='w-[90%] h-[35rem] border-[3px] border-black flex flex-col items-center justify-[center_safe] gap-5 p-4 overflow-y-scroll'>
                         {players.map((player, index) => {
                             return (
                                 <Player
                                     key={index}
                                     player={player}
                                     setSelectOpen={setSelectOpen}
-                                    handleEditPlayer={handleEditPlayer}
+                                    handleEditPlayer={editPlayerBetInfo}
                                     handleSetPlayer={handleSetPlayer}
                                     handleRemovePlayer={handleRemovePlayer}
                                 />
                             )
                         })}
                     </div>
-                    <div className='w-[3rem] h-[3rem]'>
+                    <div className='w-[4rem] h-[4rem]'>
                         <button
                             onClick={handleAddPlayer}
                             className='button--style button--hover'
@@ -67,6 +83,15 @@ export default function AddPlayerBox({ boxOpen, setBoxOpen, players, handleAddPl
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>
+
+
+                    <div className='w-[8rem] h-[4rem] absolute bottom-[1rem]'>
+                        <button
+                            className="button--style button--hover absolute "
+                            onClick={handleRemoveAllPlayers}
+                        >Remove all</button>
+                    </div>
+
                 </div>
             </BoxWrapper>
         </>
