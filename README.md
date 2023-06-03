@@ -28,3 +28,11 @@ REST API with MongoDB.
     *Right click to open this*
 
 ![BauCua Ingame Settings Menu](./images/settingsmenu.png)
+
+---
+
+**PlayWithFriends Mode (Only in LocalSandbox)**
+
+![BauCua PlayWithFriendsMode](./images/playwithfriends.png)
+
+![BauCua PlayWithFriendsMode AddPlayerBox](./images/addplayerbox.png)
